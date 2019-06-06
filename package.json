@@ -20,7 +20,7 @@
     "numeral": "^1.5.6",
     "pg": "^7.8.0",
     "serve-favicon": "~2.2.0",
-    "handlebars": "~>4.0.0",
+    "handlebars": "~>4.0.14",
     "JSON": "~1.0.0"
   }
 }
