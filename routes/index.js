@@ -10,10 +10,10 @@ var request = require('request');
 
 const Pool = require('pg').Pool
 const pool = new Pool({
-  user: 'xclxbjpavasdsw',
-  host: 'ec2-54-235-68-3.compute-1.amazonaws.com',
-  database: 'ddkpvh8aebt8ev',
-  password: 'aaa4ac7b07de3ea6013083cff4ec98b0a06c6a28175611f8861603e157986811',
+  user: 'tafpullsnqxfvh',
+  host: 'ec2-54-235-114-242.compute-1.amazonaws.com',
+  database: 'dcjise4j5ms1nu',
+  password: '4aa678893a8730d6c96c2fccfe6a58d329c8a13f42df95762504b3770e52a022',
   port: 5432,
 })
 
@@ -50,9 +50,24 @@ router.post('/', function(req, res, next) {
     })
 });
 
+/* Sunny add for API Limit Counting test */
+router.get('/apicount', function(req, res, next) {
+
+  org.getLimits()
+  .then(function(results){
+    //      res.render('index', { records: results.records });
+    //console.log(results);
+    //    res.status(200).json(results.body);
+    //    res.status(200).send(converTable_ProductList(req.protocol + '://' + req.get('host') + '/product',results.records));
+    //res.status(200).send(converTable_apicount(req.protocol + '://' + req.get('host') + '/apicount',results.rows));
+    res.status(200).send(JSON.stringify(results));
+    });
+
+});
+
 /* Sunny Add... */
 /* ERP List     */
-router.get('/erporders', function(req, res, next) {
+router.get('/erporders', function(req, res, next) { 
    pool.query('SELECT row_to_json(t) FROM (SELECT id, name, customer, ordernumber, sunnyorderid, status FROM erporder ORDER BY id DESC) t', (error, results) => {
     if (error) {
       throw error
@@ -278,6 +293,64 @@ router.post('/:id', function(req, res, next) {
       res.redirect('/' + req.params.id);
     })
 });
+
+function converTable_apicount(_url, obj) {
+  var _html_output = '<html><head><h3>Ildong Medicine Manufacture Factory System(ERP)</h3><title>ERP</title>';
+
+  _html_output += '<style> table { width: 100%; border-top: 1px solid #444444; border-collapse: collapse; } th, td { border-bottom: 1px solid #444444; padding: 10px;} </style></head><p>';
+  _html_output += '<img src=ildong_a.jpg>';
+  _html_output += '<table><tr><td>ID</td><td>Product Name</td><td>Customer</td><td>Order Quantity</td><td>Order ID</td><td>Status</td><td>Start Delivery</td></tr>';
+//  obj = JSON.parse(json);
+
+
+  console.log(JSON.stringify(obj));
+//  var _data_count = obj['rows'].length;
+
+  var _data_count = obj.length;
+
+  for (var i = 0;i < _data_count;i ++) {
+/*
+    _id = obj[i]['row_to_json'].id;
+    _name = obj[i]['row_to_json'].name;
+    _customer = obj[i]['row_to_json'].customer;
+    _ordernumber = obj[i]['row_to_json'].ordernumber;
+    _sunnyorderid = obj[i]['row_to_json'].sunnyorderid;
+    _status = obj[i]['row_to_json'].status;
+
+
+    _html_output += '<tr><form method=\"post\" action=\"' + _url + '/' + _id + '\">';
+    _html_output += '<td>';
+
+    _html_output += '<input type=\"hidden\" name=\"name\" value=\"' + _name + '\">';
+    _html_output += '<input type=\"hidden\" name=\"customer\" value=\"' + _customer + '\">';
+    _html_output += '<input type=\"hidden\" name=\"ordernumber\" value=\"' + _ordernumber + '\">';
+    _html_output += '<input type=\"hidden\" name=\"sunnyorderid\" value=\"' + _sunnyorderid + '\">';
+    _html_output += '<input type=\"hidden\" name=\"status\" value=\"Delivery Started\">';
+
+    _html_output += _id;
+    _html_output += '</td><td>';
+    _html_output += _name;
+    _html_output += '</td><td>';
+    _html_output += _customer;
+    _html_output += '</td><td>';
+    _html_output += _ordernumber;
+    _html_output += '</td><td>';
+    _html_output += _sunnyorderid;
+    _html_output += '</td><td>';
+    _html_output += _status;
+    if (_status.trim() == 'Ordered') {
+      _html_output += '</td><td><input type=\"submit\" value=\"Start Delivery\"></td></form></tr>\r\n';
+    } else {
+      _html_output += '</td><td><input type=\"submit\" value=\"Start Delivery\" disabled></td></form></tr>\r\n';
+    }
+    */
+  }
+  _html_output += '</td></tr></table>';
+  console.log(_html_output);
+  return _html_output;
+ 
+};
+
 
 function converTable_ERPList(_url, obj) {
   var _html_output = '<html><head><h3>Ildong Medicine Manufacture Factory System(ERP)</h3><title>ERP</title>';
